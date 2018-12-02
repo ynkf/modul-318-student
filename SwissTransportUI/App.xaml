@@ -1,0 +1,10 @@
+﻿<Application x:Class="SwissTransportUI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:SwissTransportUI.ViewModels"
+             xmlns:local="clr-namespace:SwissTransportUI"
+             StartupUri="Views/TransportOverview.xaml">
+    <Application.Resources>
+        <viewModels:TransportOverviewViewModel x:Key="TransportOverviewViewModel"/>
+    </Application.Resources>
+</Application>
