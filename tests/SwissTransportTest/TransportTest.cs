@@ -1,17 +1,18 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SwissTransport
 {
     [TestClass]
     public class TransportTest
     {
-        private ITransport testee;
+        private ITransport _testee;
 
         [TestMethod]
         public void Locations()
         {
-            testee = new Transport();
-            var stations = testee.GetStations("Sursee,");
+            _testee = new Transport();
+            var stations = _testee.GetStations("Sursee,");
 
             Assert.AreEqual(10, stations.StationList.Count);
         }
@@ -19,8 +20,8 @@ namespace SwissTransport
         [TestMethod]
         public void StationBoard()
         {
-            testee = new Transport();
-            var stationBoard = testee.GetStationBoard("Sursee", "8502007");
+            _testee = new Transport();
+            var stationBoard = _testee.GetStationBoard("Sursee", DateTime.Today, DateTime.Now);
 
             Assert.IsNotNull(stationBoard);
         }
@@ -28,8 +29,8 @@ namespace SwissTransport
         [TestMethod]
         public void Connections()
         {
-            testee = new Transport();
-            var connections = testee.GetConnections("Sursee", "Luzern");
+            _testee = new Transport();
+            var connections = _testee.GetConnections("Sursee", "Luzern", DateTime.Today, DateTime.Now, true);
 
             Assert.IsNotNull(connections);
         }

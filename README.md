@@ -1,6 +1,3 @@
-# modul-318-Student
+# modul-318-yafr
 
-Students!
-Fork this repository to your own Github account. Work there with this repository. The intructor will clone your repo for inspection and evaluation.
-
-Have Fun!
+Genauere Informationen sowie die Gebrauchsanweisung finden Sie im Documentation-Ordner

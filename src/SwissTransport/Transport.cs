@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using Newtonsoft.Json;
 
@@ -6,9 +7,9 @@ namespace SwissTransport
 {
     public class Transport : ITransport
     {
-        public Stations GetStations(string query)
+        public Stations GetStations(string locationName)
         {
-            var request = CreateWebRequest("http://transport.opendata.ch/v1/locations?query=" + query);
+            var request = CreateWebRequest($"http://transport.opendata.ch/v1/locations?query={locationName}");
             var response = request.GetResponse();
             var responseStream = response.GetResponseStream();
 
@@ -23,9 +24,9 @@ namespace SwissTransport
             return null;
         }
 
-        public StationBoardRoot GetStationBoard(string station, string id)
+        public StationBoardRoot GetStationBoard(string station, DateTime date, DateTime time)
         {
-            var request = CreateWebRequest("http://transport.opendata.ch/v1/stationboard?Station=" + station + "&id=" + id);
+            var request = CreateWebRequest($"http://transport.opendata.ch/v1/stationboard?station={station}&date={date}&time={time}");
             var response = request.GetResponse();
             var responseStream = response.GetResponseStream();
 
@@ -33,16 +34,16 @@ namespace SwissTransport
             {
                 var readToEnd = new StreamReader(responseStream).ReadToEnd();
                 var stationboard =
-                    JsonConvert.DeserializeObject<StationBoardRoot>(readToEnd);
+                    JsonConvert.DeserializeObject<StationBoardRoot>(readToEnd, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
                 return stationboard;
             }
 
             return null;
         }
 
-        public Connections GetConnections(string fromStation, string toStattion)
+        public Connections GetConnections(string fromStation, string toStation, DateTime date, DateTime time, bool isDateAndTimeForArrival)
         {
-            var request = CreateWebRequest("http://transport.opendata.ch/v1/connections?from=" + fromStation + "&to=" + toStattion);
+            var request = CreateWebRequest($"http://transport.opendata.ch/v1/connections?from={fromStation}&to={toStation}&isArrivalTime={isDateAndTimeForArrival}&time={time}&date={date}");
             var response = request.GetResponse();
             var responseStream = response.GetResponseStream();
 
@@ -50,7 +51,7 @@ namespace SwissTransport
             {
                 var readToEnd = new StreamReader(responseStream).ReadToEnd();
                 var connections =
-                    JsonConvert.DeserializeObject<Connections>(readToEnd);
+                    JsonConvert.DeserializeObject<Connections>(readToEnd, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
                 return connections;
             }
 
